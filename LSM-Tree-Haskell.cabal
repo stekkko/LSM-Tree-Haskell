@@ -1,0 +1,63 @@
+cabal-version:       2.0
+name:                LSM-Tree-Haskell
+version:             0.0.0
+synopsis:            See README for more info
+description:         See README for more info
+homepage:            https://github.com/stekkko/LSM-Tree-Haskell
+bug-reports:         https://github.com/stekkko/LSM-Tree-Haskell/issues
+license:             Apache-2.0
+license-file:        LICENSE
+author:              Daniil Smirnov
+maintainer:          wertufan@mail.ru
+copyright:           2019 Daniil Smirnov
+build-type:          Simple
+extra-doc-files:     README.md
+                   , CHANGELOG.md
+tested-with:         GHC == 8.6.4
+
+source-repository head
+  type:                git
+  location:            https://github.com/stekkko/LSM-Tree-Haskell.git
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     LSMTreeHaskell
+                       
+
+  build-depends:       base ^>= 4.12.0.0
+                     
+
+  ghc-options:         -Wall
+                       -Wincomplete-uni-patterns
+                       -Wincomplete-record-updates
+                       -Wcompat
+                       -Widentities
+                       -Wredundant-constraints
+                       -fhide-source-paths
+                       -Wmissing-export-lists
+                       -Wpartial-fields
+
+  default-language:    Haskell2010
+
+executable LSM-Tree-Haskell
+  hs-source-dirs:      app
+  main-is:             Main.hs
+
+  build-depends:       base ^>= 4.12.0.0
+                     , LSM-Tree-Haskell
+                     
+
+  ghc-options:         -Wall
+                       -threaded
+                       -rtsopts
+                       -with-rtsopts=-N
+                       -Wincomplete-uni-patterns
+                       -Wincomplete-record-updates
+                       -Wcompat
+                       -Widentities
+                       -Wredundant-constraints
+                       -fhide-source-paths
+                       -Wmissing-export-lists
+                       -Wpartial-fields
+
+  default-language:    Haskell2010
