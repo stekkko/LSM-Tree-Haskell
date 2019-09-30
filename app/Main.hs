@@ -1,7 +1,7 @@
 module Main (main) where
 
-import LSMTreeHaskell (someFunc)
+import LsmTree
 
 
 main :: IO ()
-main = someFunc
+main = putStrLn "Hello World!"
