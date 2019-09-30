@@ -1,3 +1,5 @@
+{-# LANGUAGE DerivingStrategies #-}
+
 module LsmTree
        ( -- * Data type
          Tree
@@ -14,20 +16,20 @@ module LsmTree
 data Tree a
     = TreeNode (Tree a) a (Tree a)
     | Leaf
-    deriving(Eq, Show)
+    deriving stock (Eq, Show)
 
-emptyTree :: Tree ()
+emptyTree :: Tree a
 emptyTree = Leaf
 
 initTree :: a -> Tree a
-initTree x = TreeNode x
+initTree x = TreeNode Leaf x Leaf
 
 -- | Data type that stores values in memory.
 data Table a = Table [a]
-    deriving(Eq, Show)
+    deriving stock (Eq, Show)
 
-emptyTable :: Table ()
-emptyTable = []
+emptyTable :: Table a
+emptyTable = Table []
 
-initTable a -> Table [a]
+initTable :: a -> Table a
 initTable x = Table [x]
