@@ -4,13 +4,14 @@ module LsmTree
        ( -- * Data type
          Tree
        , Table
+       , FileSystem
 
          -- * Update
        , emptyTree
-       , emptyTable
        , initTree
-       , initTable
+       , initFileSystem
        , insertTree
+       , insertTable
        ) where
 
 -- | Data type that stores values while program is working.
@@ -33,14 +34,17 @@ insertTree x tree = case tree of
         False -> TreeNode l val (insertTree x r)
 
 -- | Data type that stores values in memory.
-data Table a = Table [a]
-    deriving stock (Eq, Show)
+data Table = Table
+    { fileName :: String
+    , size :: Int
+    } deriving stock (Eq, Show)
 
-emptyTable :: Ord a => Table a
-emptyTable = Table []
+type FileSystem = [Table]
 
-initTable :: Ord a => a -> Table a
-initTable x = Table [x]
+-- | Upload file's information to FileSystem
+initFileSystem :: FilePath -> IO ()
+initFileSystem fp = undefined -- ^ TODO
+    
 
-insertTable :: Ord a => Table a -> a -> Table a
-insertTable = undefined
+insertTable :: String -> [a] -> FileSystem -> FileSystem
+insertTable name lst fs = Table { fileName = name, size = length lst } : fs
