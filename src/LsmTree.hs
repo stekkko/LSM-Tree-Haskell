@@ -10,6 +10,7 @@ module LsmTree
        , emptyTable
        , initTree
        , initTable
+       , insertTree
        ) where
 
 -- | Data type that stores values while program is working.
@@ -21,15 +22,25 @@ data Tree a
 emptyTree :: Tree a
 emptyTree = Leaf
 
-initTree :: a -> Tree a
+initTree :: Ord a => a -> Tree a
 initTree x = TreeNode Leaf x Leaf
+
+insertTree :: Ord a => a -> Tree a -> Tree a
+insertTree x tree = case tree of
+    Leaf             -> initTree x
+    TreeNode l val r -> case x < val of
+        True  -> TreeNode (insertTree x l) val r
+        False -> TreeNode l val (insertTree x r)
 
 -- | Data type that stores values in memory.
 data Table a = Table [a]
     deriving stock (Eq, Show)
 
-emptyTable :: Table a
+emptyTable :: Ord a => Table a
 emptyTable = Table []
 
-initTable :: a -> Table a
+initTable :: Ord a => a -> Table a
 initTable x = Table [x]
+
+insertTable :: Ord a => Table a -> a -> Table a
+insertTable = undefined
