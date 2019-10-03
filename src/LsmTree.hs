@@ -1,5 +1,4 @@
 {-# LANGUAGE DerivingStrategies #-}
-{-# LANGUAGE DatatypeContexts #-}
 
 module LsmTree
        ( -- * Data type
@@ -15,7 +14,7 @@ module LsmTree
        ) where
 
 -- | Data type that stores values while program is working.
-data Ord a => Tree a
+data Tree a
     = TreeNode (Tree a) a (Tree a)
     | Leaf
     deriving stock (Eq, Show)
@@ -26,14 +25,15 @@ emptyTree = Leaf
 initTree :: Ord a => a -> Tree a
 initTree x = TreeNode Leaf x Leaf
 
-insertTree :: Ord a => Tree a -> a -> Tree a
-insertTree Leaf x = initTree x
-insertTree (TreeNode l val r) x
-   | x < val   = TreeNode (insertTree l x) val r
-   | otherwise = TreeNode l val (insertTree r x)
+insertTree :: Ord a => a -> Tree a -> Tree a
+insertTree x tree = case tree of
+    Leaf             -> initTree x
+    TreeNode l val r -> case x < val of
+        True  -> TreeNode (insertTree x l) val r
+        False -> TreeNode l val (insertTree x r)
 
 -- | Data type that stores values in memory.
-data Ord a => Table a = Table [a]
+data Table a = Table [a]
     deriving stock (Eq, Show)
 
 emptyTable :: Ord a => Table a
