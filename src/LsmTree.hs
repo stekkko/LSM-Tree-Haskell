@@ -46,5 +46,7 @@ initFileSystem :: FilePath -> IO ()
 initFileSystem fp = undefined -- ^ TODO
     
 
-insertTable :: String -> [a] -> FileSystem -> FileSystem
-insertTable name lst fs = Table { fileName = name, size = length lst } : fs
+insertTable :: String -> [a] -> FileSystem -> IO FileSystem
+insertTable name lst fs = do
+    writeFile name lst
+    return $ Table { fileName = name, size = length lst } : fs
