@@ -36,10 +36,11 @@ insertTree x tree = case tree of
 
 lookupTree :: Ord a => a -> Tree a -> Bool
 lookupTree _ Leaf = False
-lookupTree x (TreeNode l y r)
-    | x > y  = lookupTree x r
-    | x < y  = lookupTree x l
-    | x == y = True
+lookupTree x (TreeNode l y r) = 
+    case compare x y of
+        LT -> lookupTree x l
+        GT -> lookupTree x r
+        EQ -> True
 
 -- | Data type that stores values in memory.
 data Table = Table
