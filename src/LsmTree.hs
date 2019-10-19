@@ -17,6 +17,8 @@ module LsmTree
        , sizeTree
        ) where
 
+import Data.Foldable (foldl')
+
 -- | Data type that stores values while program is working.
 data Tree a
     = TreeNode (Tree a) !a (Tree a)
@@ -26,9 +28,12 @@ data Tree a
 instance Foldable Tree where
     foldMap _ Leaf = mempty
     foldMap f (TreeNode l x r) = foldMap f l <> f x <> foldMap f r
+    -- ^ preorder traverse by default
+    foldr _ ini Leaf = ini
+    foldr f ini (TreeNode l x r) = f x (foldr f (foldr f ini r) l)
 
 sizeTree :: Tree a -> Int
-sizeTree = foldr (const (+1)) 0
+sizeTree = foldl' ((succ .) . const) 0
 
 emptyTree :: Tree a
 emptyTree = Leaf
