@@ -13,18 +13,27 @@ module LsmTree
        , initFileSystem
        , insertTree
        , insertTable
+         -- * foldr
+       , sizeTree
        ) where
 
 -- | Data type that stores values while program is working.
 data Tree a
-    = TreeNode (Tree a) a (Tree a)
+    = TreeNode (Tree a) !a (Tree a)
     | Leaf
     deriving stock (Eq, Show)
+
+instance Foldable Tree where
+    foldMap _ Leaf = mempty
+    foldMap f (TreeNode l x r) = foldMap f l <> f x <> foldMap f r
+
+sizeTree :: Tree a -> Int
+sizeTree = foldr (const (+1)) 0
 
 emptyTree :: Tree a
 emptyTree = Leaf
 
-initTree :: Ord a => a -> Tree a
+initTree :: a -> Tree a
 initTree x = TreeNode Leaf x Leaf
 
 insertTree :: Ord a => a -> Tree a -> Tree a
@@ -42,17 +51,18 @@ lookupTree x (TreeNode l y r) =
         GT -> lookupTree x r
         EQ -> True
 
--- | Data type that stores values in memory.
+
+-- | Data type that stores info about file.
 data Table = Table
     { fileName :: FilePath
-    , size :: Int --size of a file
+    , size :: Int -- ^ current count of fields in the file
     } deriving stock (Eq, Show)
 
 type FileSystem = [Table]
 
 -- | Upload file's information to FileSystem
-initFileSystem :: FilePath -> IO ()
-initFileSystem fp = undefined -- ^ TODO
+initFileSystem :: FilePath -> IO FileSystem
+initFileSystem _ = undefined
 
 insertTable :: FilePath -> String -> FileSystem -> IO FileSystem
 insertTable name lst fs = do
