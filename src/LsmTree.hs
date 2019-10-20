@@ -15,6 +15,7 @@ module LsmTree
        , insertTable
          -- * foldr
        , sizeTree
+       , heightTree
        ) where
 
 import Data.Foldable (foldl')
@@ -28,13 +29,27 @@ data Tree a
 instance Foldable Tree where
     foldMap _ Leaf = mempty
     foldMap f (TreeNode l x r) = foldMap f l <> f x <> foldMap f r
-    -- ^ preorder traverse by default
+        -- * inorder traverse by default
     foldr _ ini Leaf = ini
-    foldr f ini (TreeNode l x r) = f x (foldr f (foldr f ini r) l)
+    foldr f ini (TreeNode l x r) = foldr f (f x (foldr f ini r)) l
 
 sizeTree :: Tree a -> Int
-sizeTree = foldl' ((succ .) . const) 0
+sizeTree = foldl' (\len _ -> len + 1) 0
 
+foldrTree :: b -- ^ constant when leaf reached
+          -> (b -> a -> b -> b) -- ^ function when node reached
+          -> Tree a 
+          -> b
+foldrTree leaf node tree =
+    case tree of
+        Leaf -> leaf
+        (TreeNode l x r) -> node (foldT l) x (foldT r)
+  where
+    foldT = foldrTree leaf node
+
+heightTree :: Tree a -> Int
+heightTree = foldrTree 0 (\l _ r -> 1 + max l r)
+                    
 emptyTree :: Tree a
 emptyTree = Leaf
 
