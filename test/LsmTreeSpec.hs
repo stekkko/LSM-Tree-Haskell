@@ -1,19 +1,12 @@
 module LsmTreeSpec (spec) where
 
 import Test.Hspec
-import LsmTree ( -- * Data
-                 Tree
-                 -- * Functions
-               , insertTree
-               , initTree
-               , emptyTree
-               , heightTree
-               , sizeTree )
+import qualified LSM.Tree as LSMT
 
-tree :: Tree Int
-tree = insertTree 1 $ insertTree 3 $ insertTree 5 $
-       insertTree 7 $ insertTree 2 $ insertTree 6 $
-       initTree 4
+tree :: LSMT.Tree Int
+tree = LSMT.insert 1 $ LSMT.insert 3 $ LSMT.insert 5 $
+       LSMT.insert 7 $ LSMT.insert 2 $ LSMT.insert 6 $
+       LSMT.init 4
 --      4
 --     / \
 --    /   \ 
@@ -23,7 +16,7 @@ tree = insertTree 1 $ insertTree 3 $ insertTree 5 $
 
 spec :: Spec
 spec = do
-  describe "Testing LsmTree module:" $ do
+  describe "Testing LSM.Tree module:" $ do
 {-  it "Should be correct testing trees: " $ do
       emptyTree `shouldBe` Leaf
       tree `shouldBe` TreeNode (TreeNode (TreeNode Leaf 1 Leaf)
@@ -31,8 +24,8 @@ spec = do
                             (TreeNode Leaf 5 Leaf) 6 (TreeNode Leaf 7 Leaf))
 -}
     it "Should work on empty tree:" $ do
-      heightTree emptyTree `shouldBe` (0 :: Int)
-      sizeTree   emptyTree `shouldBe` (0 :: Int)
+      LSMT.height LSMT.empty `shouldBe` (0 :: Int)
+      LSMT.size   LSMT.empty `shouldBe` (0 :: Int)
     it "Should work on non-empty tree:" $ do
-      heightTree tree `shouldBe` (3 :: Int)
-      sizeTree   tree `shouldBe` (7 :: Int)
+      LSMT.height tree `shouldBe` (3 :: Int)
+      LSMT.size   tree `shouldBe` (7 :: Int)
