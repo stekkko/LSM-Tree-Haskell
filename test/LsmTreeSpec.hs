@@ -2,14 +2,6 @@ module LsmTreeSpec (spec) where
 
 import Test.Hspec
 import qualified LSM.Tree as LSMT
-    ( -- * Data
-      Tree
-      -- * Functions
-    , insert
-    , init
-    , empty
-    , height
-    , size )
 
 tree :: LSMT.Tree Int
 tree = LSMT.insert 1 $ LSMT.insert 3 $ LSMT.insert 5 $

@@ -65,28 +65,3 @@ test-suite LSM-Tree-Haskell-test
                        -Wpartial-fields
 
   default-language:    Haskell2010
-
-benchmark LSM-Tree-Haskell-benchmark
-  type:                exitcode-stdio-1.0
-  hs-source-dirs:      benchmark
-  main-is:             Main.hs
-
-  build-depends:       base ^>= 4.12.0.0
-                     , gauge
-                     , LSM-Tree-Haskell
-                     
-
-  ghc-options:         -Wall
-                       -threaded
-                       -rtsopts
-                       -with-rtsopts=-N
-                       -Wincomplete-uni-patterns
-                       -Wincomplete-record-updates
-                       -Wcompat
-                       -Widentities
-                       -Wredundant-constraints
-                       -fhide-source-paths
-                       -Wmissing-export-lists
-                       -Wpartial-fields
-
-  default-language:    Haskell2010
