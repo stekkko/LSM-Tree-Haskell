@@ -1,4 +1,5 @@
 {-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE LambdaCase         #-}
 
 module LsmTree
        ( -- * Data type
@@ -36,19 +37,20 @@ instance Foldable Tree where
 sizeTree :: Tree a -> Int
 sizeTree = foldl' (\len _ -> len + 1) 0
 
-foldrTree :: b -- ^ constant when leaf reached
-          -> (b -> a -> b -> b) -- ^ function when node reached
-          -> Tree a 
-          -> b
-foldrTree leaf node tree =
-    case tree of
-        Leaf -> leaf
-        (TreeNode l x r) -> node (foldT l) x (foldT r)
+foldTree
+    :: forall b a.
+    b -- ^ constant when leaf reached
+    -> (b -> a -> b -> b) -- ^ function when node reached
+    -> Tree a 
+    -> b
+foldTree leaf node = \case
+    Leaf -> leaf
+    (TreeNode l x r) -> node (foldT l) x (foldT r)
   where
-    foldT = foldrTree leaf node
+    foldT = foldTree leaf node
 
 heightTree :: Tree a -> Int
-heightTree = foldrTree 0 (\l _ r -> 1 + max l r)
+heightTree = foldTree 0 (\l _ r -> 1 + max l r)
                     
 emptyTree :: Tree a
 emptyTree = Leaf
@@ -57,7 +59,7 @@ initTree :: a -> Tree a
 initTree x = TreeNode Leaf x Leaf
 
 insertTree :: Ord a => a -> Tree a -> Tree a
-insertTree x tree = case tree of
+insertTree x = \case
     Leaf             -> initTree x
     TreeNode l val r -> case x < val of
         True  -> TreeNode (insertTree x l) val r
