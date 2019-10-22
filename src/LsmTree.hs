@@ -3,7 +3,7 @@
 
 module LsmTree
        ( -- * Data type
-         Tree
+         Tree (TreeNode, Leaf)
        , Table
        , FileSystem
 
