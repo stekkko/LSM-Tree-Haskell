@@ -5,6 +5,5 @@
 [![Apache-2.0 license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Stackage Lts](http://stackage.org/package/LSM-Tree-Haskell/badge/lts)](http://stackage.org/lts/package/LSM-Tree-Haskell)
 [![Stackage Nightly](http://stackage.org/package/LSM-Tree-Haskell/badge/nightly)](http://stackage.org/nightly/package/LSM-Tree-Haskell)
-[![Build status](https://secure.travis-ci.org/stekkko/LSM-Tree-Haskell.svg)](https://travis-ci.org/stekkko/LSM-Tree-Haskell)
 
 See README for more info
