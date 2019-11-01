@@ -56,10 +56,11 @@ init x = Node Leaf x Leaf
 
 insert :: Ord a => a -> Tree a -> Tree a
 insert x = \case
-    Leaf         -> init x
-    Node l val r -> case x < val of
-        True  -> Node (insert x l) val r
-        False -> Node l val (insert x r)
+    Leaf -> init x
+    Node l val r -> 
+        if x < val
+        then Node (insert x l) val r
+        else Node l val (insert x r)
 
 lookup :: Ord a => a -> Tree a -> Bool
 lookup _ Leaf = False
