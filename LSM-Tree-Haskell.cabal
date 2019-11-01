@@ -46,7 +46,7 @@ test-suite LSM-Tree-Haskell-test
   main-is:             Spec.hs
   other-modules:       LsmTreeSpec
 
-  build-depends:       base ^>= 4.12.0.0
+  build-depends:       base
                      , LSM-Tree-Haskell
                      , hspec
                      
